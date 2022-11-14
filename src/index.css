@@ -1,13 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    width: 100vw;
+    overflow-x: hidden;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: #121212;
+    @apply
+    scroll-smooth
+    text-[#D2D3E5]
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+::-webkit-scrollbar {
+    height: 90%;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    /*background: rgb(42, 39, 39);*/
+    @apply
+    bg-opacity-0
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8e9195;
+    border-radius: 4px;
+    border: 5px solid rgba(142, 145, 149, 0);
+    transition: 0.5s;
+    -webkit-animation: color 5s ease-in-out infinite;
+    -moz-animation: color 5s ease-in-out infinite;
+    -o-animation: color 5s ease-in-out infinite;
+    animation: color 5s ease-in-out infinite;
+    @apply
+    duration-75
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8e9195;
+    border-radius: 4px;
+    border: 5px solid rgba(255, 255, 255, 0);
+    transition: 0.5s;
+    -webkit-animation: color 5s ease-in-out infinite;
+    -moz-animation: color 5s ease-in-out infinite;
+    -o-animation: color 5s ease-in-out infinite;
+    animation: color 5s ease-in-out infinite;
+}
+
+
+.front {
+    background-color: #222222;
+}
+
+.header {
+    @apply
+    bg-black
+    text-white
+    h-16
+    flex
+    items-center
+    select-none
+    border-b
+    border-black
+    border-opacity-10
+    px-4
+    md:px-0
+}
+
+.header__nav {
+    @apply
+    flex w-full justify-between
+    container mx-auto
+    items-center
+    h-full
+}
+
+.nav__item {
+    @apply
+    h-full
+    flex
+    items-center
+    font-medium
+    tracking-wide
+    text-[#D2D3E5]
+}
+
+.nav__logo {
+    @apply
+    text-3xl
+    font-bold
+}
+
+.buttons {
+    @apply
+    flex
+    space-x-3
+    h-full
+    items-center
+
+}
+
+.auth {
+    @apply
+    container
+    mx-auto
+    w-full
+    mt-10
+
+}
+
+.auth_container {
+    @apply
+    p-10
+    md:p-0
+    md:w-2/3
+    mx-auto
+}
+
+.auth_container h1 {
+    @apply
+    text-[#D2D3E5]
+    font-medium
+    text-4xl
+    text-center
+    mb-2.5
+}
+
+.auth_container form {
+    @apply
+    block
+    space-y-5
+
+        /*sm:w-6/12*/
+        /*lg:w-3/12*/
+    mx-auto
+}
+
+.auth_container form input {
+    @apply
+    rounded
+    h-8
+    w-full
+    p-1
+    text-black
+    outline-none
+
+    focus:outline-none focus:ring-1 focus:ring-gray-100
+}
+
+
+.buttons .button {
+    @apply
+    mx-2
+    cursor-pointer
+    px-2
+    h-full
+    flex
+    items-center
+    hover:scale-105
+    duration-300
+    text-[#D7D7D7]
+    hover:text-[#fff]
+}
+
+.form {
+    @apply
+    block
+    space-y-5
+
+    sm:w-6/12
+    lg:w-3/12
+    mx-auto
+}
+
+.form input {
+    @apply
+    rounded
+    h-8
+    w-full
+    p-1
+    text-black
+
+}
+
+.task-creation form {
+    @apply
+    flex items-center space-x-5
+    flex-col
+
+    sm:flex-row
+    sm:justify-center
+    mx-auto
+    w-11/12
+
+}
+
+.task-creation textarea {
+    @apply
+    resize-none text-black bg-amber-50
+    p-2 rounded-lg w-full lg:w-full h-24 focus:outline-none
+    focus:ring-[3px] focus:ring-blue-500 duration-75
+    focus:scale-105
+}
+
+canvas {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
