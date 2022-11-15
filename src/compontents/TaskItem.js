@@ -1,54 +1,59 @@
-import React, {useContext, useState} from 'react';
-import {observer} from "mobx-react-lite";
-import {changeTaskStatus, deleteTask, getTasks} from "../http/tasksAPI";
+import React, {useContext} from 'react';
+import {changeTaskStatus, deleteTask} from "../http/tasksAPI";
 import {Context} from "../index";
 
-const TaskItem = observer(({task}) => {
-
-  const {tasks} = useContext(Context)
-
-  const deleteThis = async (id) => {
+const TaskItem = ({thisTask}) => {
+  const {task} = useContext(Context)
+  const id = thisTask.id
+  const deleteThis = async () => {
     try {
       let data
-      await deleteTask(id)
-      console.log('sending')
-      const new_tasks = await getTasks()
-      tasks.setTasks(new_tasks)
+      data = await deleteTask(id)
+      task.setTasks(data)
     } catch (e) {
       alert(e.response.data.message)
     }
-
   }
 
+  async function changeStatus (id, text, is_did) {
+    try {
+      let data
+      is_did = !thisTask.is_did
+      text = thisTask.text
+      console.log(text, is_did)
+      data = await changeTaskStatus(id, text, is_did)
+      task.setTasks(data)
+    } catch (e) {
+      alert(e.response.data.message)
+    }
+  }
 
   return (
-    <div id={task.id}
-         className={task.is_did
-           ?
-           ' opacity-30 front lg:pl-5 py-5 rounded-lg duration-75'
-           :
-           'opacity-100 front lg:pl-5 py-5 rounded-lg duration-75'}>
+    <div id={'taskId' + id}
+         className={
+           thisTask.is_did
+             ?
+             ' opacity-30 front lg:pl-5 py-5 rounded-lg duration-75'
+             :
+             'opacity-100 front lg:pl-5 py-5 rounded-lg duration-75'
+         }
+    >
       <form action=""
             className='flex flex-col space-y-2 sm:space-y-0 sm:flex sm:flex-row items-center justify-center sm:space-x-2 md:space-x-4'>
         <div className='relative duration-200 w-11/12 sm:w-7/12 lg:w-8/12'>
-          <span className={task.onEdit
-            ?
-            "flex h-2 w-2 absolute -right-0.5 -top-0.5 opacity-100"
-            :
-            "flex h-2 w-2 absolute -right-0.5 -top-0.5 opacity-0 hidden"
-          }>
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-          </span>
-          <textarea name="" readOnly={!task.onEdit}
+          {/*<span className="flex h-2 w-2 absolute -right-0.5 -top-0.5 opacity-100">*/}
+          {/*  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>*/}
+          {/*  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>*/}
+          {/*</span>*/}
+          <textarea name="" readOnly={true}
                     className='resize-none text-black bg-amber-50 p-2 rounded-lg outline-none w-full h-24'
-                    value={task.text}
+                    value={thisTask.text}
           ></textarea>
-          <input type="text" name='is_did' value={!task.is_did} className='hidden'/>
+          <input type="text" name='is_did' value={!thisTask.is_did} className='hidden'/>
         </div>
         <div className='buttons text-white flex sm:w-3/12'>
-          <button type='button' className='bg-green-500 rounded-lg p-2 w-max block'
-                  onClick={() => changeTaskStatus(task.id, !task.is_did)}>
+          <button type='button' className='bg-green-500 rounded-lg p-2 w-max block opacity-100'
+                  onClick={() => changeStatus(thisTask.id, thisTask.text, thisTask.is_did)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                  stroke="currentColor" className="w-6 h-6 lg:w-8 lg:h-8">
               <path strokeLinecap="round" strokeLinejoin="round"
@@ -57,20 +62,7 @@ const TaskItem = observer(({task}) => {
 
 
           </button>
-          {!task.is_did
-            ?
-            <button type='button' className='bg-blue-500 rounded-lg p-2 w-max block'
-                    onClick={() => task.onEdit = !task.onEdit}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                   stroke="currentColor" className="w-6 h-6 lg:w-8 lg:h-8">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-              </svg>
-            </button>
-            :
-            task.onEdit = false
-          }
-          <button onClick={() => deleteThis(task.id)} type='button' className='bg-red-500 rounded-lg p-2 w-max block'>
+          <button onClick={deleteThis} type='button' className='bg-red-500 rounded-lg p-2 w-max block'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" className="w-6 h-6 lg:w-8 lg:h-8">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,6 +75,6 @@ const TaskItem = observer(({task}) => {
       </form>
     </div>
   );
-});
+};
 
 export default TaskItem;

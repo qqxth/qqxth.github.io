@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, TASKS_ROUTE} from "../utils/consts";
+import {LOGIN_ROUTE, REGISTRATION_ROUTE, TASKS_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
-import {check, login, registration} from "../http/userAPI";
+import {login, registration} from "../http/userAPI";
 import {Context} from "../index";
 
 const Auth = observer(() => {

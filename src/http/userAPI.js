@@ -8,7 +8,7 @@ export const registration = async (email, username, password) => {
 
 export const login = async (username, password) => {
   const {data} =  await $host.post('auth/jwt/create/', {username, password})
-  const token= data.access
+  const token = data.access
   const refreshToken = data.refresh
   localStorage.setItem('access', token)
   localStorage.setItem('refresh', refreshToken)
